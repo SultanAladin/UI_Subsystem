@@ -20,6 +20,8 @@ import {
   Eye,
   MonitorPlay,
   Download,
+  ListTree,
+  SlidersHorizontal,
 } from "lucide-react";
 import { useTheme } from "../theme.tsx";
 import { TooltipButton } from "./SharedUI.tsx";
@@ -47,9 +49,17 @@ export function LeftSidebar() {
 export function TopToolbar({
   activeModal,
   setActiveModal,
+  showOutliner,
+  setShowOutliner,
+  showProperties,
+  setShowProperties,
 }: {
   activeModal: string | null;
   setActiveModal: (m: string | null) => void;
+  showOutliner?: boolean;
+  setShowOutliner?: (show: boolean) => void;
+  showProperties?: boolean;
+  setShowProperties?: (show: boolean) => void;
 }) {
   const { colors } = useTheme();
 
@@ -60,25 +70,27 @@ export function TopToolbar({
         style={{ borderRadius: 9999 }}
       >
         <TooltipButton
+          icon={<ListTree size={16} />}
+          onClick={() => setShowOutliner?.(!showOutliner)}
+          active={showOutliner}
+        />
+        <div className={`w-px h-4 mx-2 ${colors.divider}`} />
+        <TooltipButton
           icon={<FilePlus size={16} />}
           onClick={() => setActiveModal("newFile")}
           active={activeModal === "newFile"}
-        />
-        <TooltipButton
-          icon={<Download size={16} />}
-          onClick={() => setActiveModal("importSettings")}
-          active={activeModal === "importSettings"}
         />
         <TooltipButton
           icon={<Save size={16} />}
           onClick={() => setActiveModal("saveFile")}
           active={activeModal === "saveFile"}
         />
-        <TooltipButton icon={<Undo size={16} />} />
-        <TooltipButton icon={<Redo size={16} />} />
-
+        <TooltipButton
+          icon={<Download size={16} />}
+          onClick={() => setActiveModal("importSettings")}
+          active={activeModal === "importSettings"}
+        />
         <div className={`w-px h-4 mx-2 ${colors.divider}`} />
-
         <TooltipButton
           icon={<MonitorPlay size={16} />}
           onClick={() => setActiveModal("renderSettings")}
@@ -89,14 +101,12 @@ export function TopToolbar({
           onClick={() => setActiveModal("cameraSettings")}
           active={activeModal === "cameraSettings"}
         />
-
         <div className={`w-px h-4 mx-2 ${colors.divider}`} />
-
-        <div
-          className={`px-4 py-1 text-xs font-medium flex items-center justify-center min-w-[120px] ${colors.textMuted}`}
-        >
-          Untitled Workspace
-        </div>
+        <TooltipButton
+          icon={<SlidersHorizontal size={16} />}
+          onClick={() => setShowProperties?.(!showProperties)}
+          active={showProperties}
+        />
       </div>
     </div>
   );

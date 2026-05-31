@@ -1,6 +1,6 @@
 {
-  "name": "OLED Dark Studio UI",
-  "description": "A dark-themed, highly customizable settings and workspace interface typical of modern creative tools, featuring micro-interactions and theme switching.",
+  "name": "",
+  "description": "",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

@@ -222,7 +222,8 @@ export function OutlinerPanel({ selectedItemId, setSelectedItemId, sceneItems, u
 
   return (
     <div 
-      className={`w-[360px] h-full flex flex-col border-r shadow-xl z-20 ${colors.panelBg} ${colors.panelBorder}`}
+      className={`w-[320px] h-full flex flex-col border shadow-2xl z-20 overflow-hidden ${colors.panelBg} ${colors.panelBorder}`}
+      style={{ borderRadius: cornerRadius * 1.5, borderColor: "rgba(255,255,255,0.1)" }}
     >
       <div className={`p-4 border-b ${colors.divider} flex flex-col gap-4 shrink-0`}>
          

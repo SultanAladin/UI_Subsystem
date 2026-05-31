@@ -3,60 +3,60 @@ import { useTheme } from "../theme.tsx";
 import { FormFieldRow, FormInput, FormSelect, FormToggle } from "./SharedUI.tsx";
 import { Calendar, X } from "lucide-react";
 
-export function CreateFileModal({ onClose }: { onClose?: () => void }) {
+export function CreateFileModal({ onClose, isSidebar }: { onClose?: () => void, isSidebar?: boolean }) {
   const { colors, accentColor, cornerRadius } = useTheme();
   
   return (
-    <div className={`w-full h-full mx-auto flex flex-col p-8 lg:p-12`}>
-      <div className="mb-10 flex justify-between items-start">
+    <div className={`w-full h-full mx-auto flex flex-col ${isSidebar ? 'p-6 flex-1 overflow-y-auto custom-scrollbar' : 'p-8 lg:p-12'}`}>
+      <div className={`mb-6 flex justify-between items-start shrink-0`}>
          <div>
-            <h2 className={`text-2xl font-semibold mb-2 ${colors.text}`}>New Workspace </h2>
-            <p className={`text-sm ${colors.textMuted}`}>Configure file details and resolution setup.</p>
+            <h2 className={`text-xl font-semibold mb-1 ${colors.text}`}>New Workspace </h2>
+            <p className={`text-xs ${colors.textMuted}`}>Configure file details and resolution.</p>
          </div>
-         <button onClick={onClose} className={`p-2 rounded-full border transition-colors hover:bg-white/5 ${colors.panelBorder} ${colors.textMuted}`}>
-            <X size={16} />
+         <button onClick={onClose} className={`p-1.5 rounded-full border transition-colors hover:bg-white/5 ${colors.panelBorder} ${colors.textMuted}`}>
+            <X size={14} />
          </button>
       </div>
       
-      <div className="flex flex-col flex-1 max-w-3xl lg:px-4">
-        <FormFieldRow label="Project Title *">
+      <div className="flex flex-col flex-1 gap-4">
+        <div>
+          <div className="text-xs font-semibold mb-2 text-white/70">Project Title *</div>
           <FormInput value="Untitled Concept" />
-        </FormFieldRow>
+        </div>
 
-        <FormFieldRow label="Resolution *">
-          <div className="flex gap-4 w-full">
+        <div>
+          <div className="text-xs font-semibold mb-2 text-white/70">Resolution *</div>
+          <div className="flex gap-2 w-full items-center">
             <FormInput value="1920" />
-            <div className={`text-center py-3 text-sm ${colors.textMuted}`}>x</div>
+            <div className={`text-center text-xs ${colors.textMuted}`}>x</div>
             <FormInput value="1080" />
           </div>
-        </FormFieldRow>
+        </div>
 
-        <FormFieldRow label="Include basic nodes">
-          <div className="flex justify-end w-full">
-            <FormToggle active={true} onChange={() => {}} />
-          </div>
-        </FormFieldRow>
+        <div className="flex items-center justify-between mt-2">
+          <div className="text-xs font-medium text-white/70">Include basic nodes</div>
+          <FormToggle active={true} onChange={() => {}} />
+        </div>
+        
+        <div className="border-t border-white/5 my-2"></div>
 
-        <FormFieldRow label="Template">
+        <div>
+          <div className="text-xs font-semibold mb-2 text-white/70">Template</div>
           <FormSelect options={["Blank Template", "Web Layout", "Mobile App UI", "Icon Pack"]} />
-        </FormFieldRow>
+        </div>
 
-        <FormFieldRow label="Use Grid System">
-          <div className="flex justify-end w-full">
-            <FormToggle active={true} onChange={() => {}} />
-          </div>
-        </FormFieldRow>
+        <div className="flex items-center justify-between mt-2 mb-6">
+          <div className="text-xs font-medium text-white/70">Use Grid System</div>
+          <FormToggle active={true} onChange={() => {}} />
+        </div>
 
-        <div className="mt-12 flex justify-between items-center pb-8">
-          <span className={`text-xs ${colors.textMuted}`}>Draft auto-saves automatically</span>
-          <div className="flex gap-4">
-            <button onClick={onClose} className={`px-5 py-2.5 text-sm font-medium ${colors.textMuted} hover:${colors.text} transition-colors`}>
-              Discard Changes
-            </button>
-            <button className={`px-6 py-2.5 text-sm font-medium text-white rounded-lg transition-transform hover:opacity-90 active:scale-95`} style={{ backgroundColor: accentColor, borderRadius: cornerRadius }}>
-              Create workspace
-            </button>
-          </div>
+        <div className="mt-auto flex flex-col gap-3 pt-6 shrink-0 border-t border-white/5">
+          <button className={`w-full py-2.5 text-sm font-medium text-white rounded-lg transition-transform hover:opacity-90 active:scale-95`} style={{ backgroundColor: accentColor, borderRadius: cornerRadius }}>
+            Create workspace
+          </button>
+          <button onClick={onClose} className={`w-full py-2 text-sm font-medium ${colors.textMuted} hover:${colors.text} transition-colors border border-white/10 rounded-lg hover:bg-white/5`}>
+            Cancel
+          </button>
         </div>
       </div>
     </div>

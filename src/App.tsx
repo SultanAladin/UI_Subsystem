@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { ThemeProvider, useTheme } from "./theme.tsx";
 import { TopToolbar } from "./components/WorkspaceLayout.tsx";
-import { SettingsModal } from "./components/SettingsModal.tsx";
 import { CreateFileModal } from "./components/CreateFileModal.tsx";
 import { SaveFileModal } from "./components/SaveFileModal.tsx";
 import {
@@ -27,6 +26,8 @@ import { ArcNotch } from "./components/ArcNotch.tsx";
 function AppContent() {
   const { colors, fontFamily, cornerRadius } = useTheme();
   const [activeModal, setActiveModal] = useState<string | null>(null);
+  const [showOutliner, setShowOutliner] = useState<boolean>(true);
+  const [showProperties, setShowProperties] = useState<boolean>(true);
   const [selectedItemId, setSelectedItemId] = useState<string>("sky");
   const [sceneItems, setSceneItems] = useState(INITIAL_HIERARCHY);
 
@@ -73,24 +74,45 @@ function AppContent() {
       </div>
 
       <ArcNotch setActiveModal={setActiveModal} />
-      <TopToolbar activeModal={activeModal} setActiveModal={setActiveModal} />
+      <TopToolbar 
+        activeModal={activeModal} 
+        setActiveModal={setActiveModal} 
+        showOutliner={showOutliner}
+        setShowOutliner={setShowOutliner}
+        showProperties={showProperties}
+        setShowProperties={setShowProperties}
+      />
 
-      <div className="absolute left-0 top-0 bottom-0 z-10 hidden md:block">
-        <OutlinerPanel
-          selectedItemId={selectedItemId}
-          setSelectedItemId={setSelectedItemId}
-          sceneItems={sceneItems}
-          updateNode={updateNode}
-          onAddFolder={handleAddFolder}
-        />
+      <div 
+        className="absolute left-6 top-24 bottom-4 z-40 pointer-events-none" 
+      >
+        <div 
+          className={`h-full pointer-events-auto transition-all duration-300 ${showOutliner ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 pointer-events-none'}`}
+          onMouseLeave={() => setShowOutliner(false)}
+        >
+          <OutlinerPanel
+            selectedItemId={selectedItemId}
+            setSelectedItemId={setSelectedItemId}
+            sceneItems={sceneItems}
+            updateNode={updateNode}
+            onAddFolder={handleAddFolder}
+          />
+        </div>
       </div>
 
-      <div className="absolute right-0 top-0 bottom-0 z-10 hidden md:block">
-        <PropertiesPanel
-          selectedItemId={selectedItemId}
-          sceneItems={sceneItems}
-          updateNode={updateNode}
-        />
+      <div 
+        className="absolute right-6 top-24 bottom-4 z-40 hidden md:block pointer-events-none"
+      >
+        <div 
+          className={`h-full pointer-events-auto transition-all duration-300 ${showProperties ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4 pointer-events-none'}`}
+          onMouseLeave={() => setShowProperties(false)}
+        >
+          <PropertiesPanel
+            selectedItemId={selectedItemId}
+            sceneItems={sceneItems}
+            updateNode={updateNode}
+          />
+        </div>
       </div>
 
       {/* Main Workspace Area with Modals */}
@@ -105,6 +127,7 @@ function AppContent() {
               transition={{ type: "spring", bounce: 0.1, duration: 0.5 }}
               className={`w-full max-w-5xl h-full mx-auto flex flex-col border shadow-2xl overflow-hidden pointer-events-auto ${colors.panelBg} ${colors.panelBorder}`}
               style={{ borderRadius: cornerRadius * 1.5 }}
+              onMouseLeave={() => setActiveModal(null)}
             >
               <div className="flex-1 overflow-y-auto custom-scrollbar">
                 {activeModal === "displaySettings" && (
